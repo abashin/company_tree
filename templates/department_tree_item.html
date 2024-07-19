@@ -1,0 +1,13 @@
+{% for child in children %}
+    <li class="list-group-item">
+        <span class="department-name">{{ child.name }}</span>
+        <ul class="list-group">
+            {% for employee in child.employees.all %}
+                <li class="list-group-item employee-info">
+                    {{ employee.full_name }} - {{ employee.position }}
+                </li>
+            {% endfor %}
+            {% include 'department_tree_item.html' with children=child.children.all %}
+        </ul>
+    </li>
+{% endfor %}

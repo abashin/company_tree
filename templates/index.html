@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Company Structure</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .list-group-item {
+            border: none;
+            padding: 8px 16px;
+            background-color: #fff;
+            margin-bottom: 4px;
+            border-radius: 4px;
+        }
+        .list-group-item:hover {
+            background-color: #f1f1f1;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        .list-group {
+            padding-left: 20px;
+        }
+        .department-name {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .employee-info {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul class="list-group">
+            {% for department in departments %}
+                <li class="list-group-item">
+                    <span class="department-name">{{ department.name }}</span>
+                    <ul class="list-group">
+                        {% for employee in department.employees.all %}
+                            <li class="list-group-item employee-info">
+                                {{ employee.full_name }} - {{ employee.position }}
+                            </li>
+                        {% endfor %}
+                        {% include 'department_tree_item.html' with children=department.children.all %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% bootstrap_javascript %}
+</body>
+</html>
